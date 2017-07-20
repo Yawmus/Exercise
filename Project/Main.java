@@ -2,9 +2,12 @@ import java.io.*;
 import java.net.*;
 import java.util.Scanner;
 
+import com.sun.net.httpserver.HttpExchange;
+import com.sun.net.httpserver.HttpHandler;
+import com.sun.net.httpserver.HttpServer;
+
 // This class sends a request to http://ip-api.com with the user's ip address and returns its location
 public class Main {
-
    public static String getLocation(String targetURL, String urlParameters) {
   		HttpURLConnection con = null;
 
@@ -47,11 +50,32 @@ public class Main {
 	  	}
 	}
 
+	/*
    	public static void main(String[] args) throws Exception
    	{
    		String ip = "";
    		Scanner in = new Scanner(System.in);
-   		
+
    		System.out.println(getLocation("http://ip-api.com/line", ip));
    	}
+   	*/
+
+
+    public static void main(String[] args) throws Exception {
+        HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
+        server.createContext("/test", new MyHandler());
+        server.start();
+    }
+
+    static class MyHandler implements HttpHandler {
+        @Override
+        public void handle(HttpExchange t) throws IOException {
+        	String ipAddress = t.getRemoteAddress().toString();
+        	//String location = getLocation("https://ip-api.com/line", ipAddress);
+            t.sendResponseHeaders(200, ipAddress.length());
+            OutputStream os = t.getResponseBody();
+            os.write(ipAddress.getBytes());
+            os.close();
+        }
+    }
 }

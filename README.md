@@ -2,5 +2,6 @@
 Unicity exercise
 
 Run these commands to start the server
-docker run -p 80:80 --rm -v $PWD:/app -w /app java:8 javac Main.java
-docker run -p 80:80 --rm -v $PWD:/app -w /app java:8 java Main
+----------------------------------------------------------------------------
+docker run -p 80:80 --rm -v $PWD:/app -w /app/Project java:8 javac Main.java
+docker run -p 80:80 --rm -v $PWD:/app -w /app/Project java:8 java Main

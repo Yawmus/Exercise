@@ -13,19 +13,8 @@ public class Main {
 
 	  	try {
 	    	// Establishes a connection
-	    	URL url = new URL(targetURL);
+	    	URL url = new URL(targetURL + "/" + urlParameters);
 	    	con = (HttpURLConnection) url.openConnection();
-	    	con.setRequestMethod("POST");
-	    	con.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-	    	con.setRequestProperty("Content-Length", Integer.toString(urlParameters.getBytes().length));
-	    	con.setRequestProperty("Content-Language", "en-US");  
-			con.setUseCaches(false);
-	    	con.setDoOutput(true);
-	    	System.out.println(con.getOutputStream());
-	    	// Send request to the API
-	    	DataOutputStream wr = new DataOutputStream (con.getOutputStream());
-			wr.writeBytes(urlParameters);
-		    wr.close();
 
 		    // Get a response  
 	   		InputStream is = con.getInputStream();
@@ -49,16 +38,6 @@ public class Main {
 	    	}
 	  	}
 	}
-
-	/*
-   	public static void main(String[] args) throws Exception
-   	{
-   		String ip = "";
-   		Scanner in = new Scanner(System.in);
-
-   		System.out.println(getLocation("http://ip-api.com/line", ip));
-   	}
-   	*/
 
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);

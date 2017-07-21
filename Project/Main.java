@@ -1,6 +1,6 @@
 import java.io.*;
 import java.net.*;
-import java.util.Scanner;
+import java.util.*;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -21,7 +21,7 @@ public class Main {
 	    	con.setRequestProperty("Content-Language", "en-US");  
 			con.setUseCaches(false);
 	    	con.setDoOutput(true);
-
+	    	System.out.println(con.getOutputStream());
 	    	// Send request to the API
 	    	DataOutputStream wr = new DataOutputStream (con.getOutputStream());
 			wr.writeBytes(urlParameters);
@@ -60,7 +60,6 @@ public class Main {
    	}
    	*/
 
-
     public static void main(String[] args) throws Exception {
         HttpServer server = HttpServer.create(new InetSocketAddress(80), 0);
         server.createContext("/test", new MyHandler());
@@ -71,10 +70,11 @@ public class Main {
         @Override
         public void handle(HttpExchange t) throws IOException {
         	String ipAddress = t.getRemoteAddress().toString();
-        	//String location = getLocation("https://ip-api.com/line", ipAddress);
-            t.sendResponseHeaders(200, ipAddress.length());
+        	String location = getLocation("http://ip-api.com/line", ipAddress);
+
+            t.sendResponseHeaders(200, location.length());
             OutputStream os = t.getResponseBody();
-            os.write(ipAddress.getBytes());
+            os.write(location.getBytes());
             os.close();
         }
     }

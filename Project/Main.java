@@ -48,7 +48,7 @@ public class Main {
     static class MyHandler implements HttpHandler {
         @Override
         public void handle(HttpExchange t) throws IOException {
-        	String ipAddress = t.getRemoteAddress().toString();
+        	String ipAddress = t.getRemoteAddress().getAddress().toString();
         	String location = getLocation("http://ip-api.com/line", ipAddress);
 
             t.sendResponseHeaders(200, location.length());
